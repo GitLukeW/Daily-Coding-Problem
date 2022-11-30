@@ -1,29 +1,35 @@
-import json
-
-class Node:
+class TreeNode(object):
     def __init__(self, value, left=None, right=None):
         self.value = value
         self.left = left
         self.right = right
 
-    def serialize(self):
-        return json.dumps({
-            "value": self.value,
-            "left": "<PUT YOUR CODE TO CALCULATE THIS>",
-            "right": "<PUT YOUR CODE TO CALCULATE THIS>"
-        })
 
-    @classmethod
-    def deserialize(self, string):
-        return "Memes"
+class Code:
 
-node = Node(
-    100,
-    Node(50, Node(40), Node(60, Node(55))),
-    Node(101)
-)
+    def serialize(self, root):
+        result = []
 
-print(result = node.serialize())
-print(Node.deserialize(result)) # --> should be identical to the tree above
+        def depth(node):
+            if not node:
+                result.append("N")
+                return
+            result.append(str(node.value))
+            depth(node.left)
+            depth(node.right)
+        return ",".join(result)
 
-# Might be cheating to use json library.. try to do it yourself. 
+    def deserialize(self, data):
+        value = data.split(",")
+        self.i = 0
+
+        def depth():
+            if value[self.i] == "N":
+                self.i += 1
+                return None
+            node = TreeNode(int(value[self.i]))
+            self.i += 1
+            node.left = depth()
+            node.right = depth()
+            return node
+        return depth()
